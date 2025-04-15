@@ -6,7 +6,8 @@ Motivated by my avoidance of repetitive gating/
 prevention of developing trigger fingers.<br>
 I'm inspired by several developers of the available bioC packages which made gating accesssible to the R users.
 
-Cheers Kei Onn, Lai
+Cheers <br>
+Kei Onn, Lai
 
 This bookdown is rendered here:
 https://taupe-faloodeh-19df5f.netlify.app/
