@@ -35,7 +35,7 @@ plot(gs)
 
 ```{r,echo=F,eval=T}
 suppressMessages(library(png))
-img1_path <- 'C:/Users/Kei Onn/Desktop/local_preparreddata/verivswithoutvericells/gatingH_WITHOUTveri.png'
+img1_path <- 'gatingH_WITHOUTveri.png'
 img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
 knitr::include_graphics(img1_path)
 ```

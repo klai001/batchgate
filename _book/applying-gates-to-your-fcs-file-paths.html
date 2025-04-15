@@ -16,7 +16,7 @@ set in the _output.yml file.</p>" />
   <meta property="og:description" content="<p>This is a minimal example of using the bookdown package to write a book.
 The HTML output format for this example is bookdown::gitbook,
 set in the _output.yml file.</p>" />
-  <meta name="github-repo" content="rstudio/bookdown-demo" />
+  <meta name="github-repo" content="klai001/batchgate" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 3 Applying gates to your fcs file paths | Mass cytof/flow pipeline in R" />
@@ -186,7 +186,7 @@ Again I am selecting <code>gs[[1]]</code> meaning the first sample of my gating 
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="applying-gates-to-your-fcs-file-paths.html#cb5-1" tabindex="-1"></a><span class="fu">gs_pop_get_count_with_meta</span>(gating_applied[[<span class="dv">1</span>]],<span class="st">&#39;freq&#39;</span>)</span>
 <span id="cb5-2"><a href="applying-gates-to-your-fcs-file-paths.html#cb5-2" tabindex="-1"></a>res<span class="ot">&lt;-</span><span class="fu">autoplot</span>(gating_applied[[<span class="dv">1</span>]])</span>
 <span id="cb5-3"><a href="applying-gates-to-your-fcs-file-paths.html#cb5-3" tabindex="-1"></a>qcp <span class="ot">&lt;-</span> <span class="fu">ggcyto_arrange</span>(res, <span class="at">nrow =</span> <span class="dv">5</span>)</span></code></pre></div>
-<p><img src="../../local_preparreddata/manualvsbatchcomp/gatingstrategy_WITHOUTveri.png" width="4000" /></p>
+<p><img src="gatingstrategy_WITHOUTveri.png" width="4000" /></p>
 <p>And finally.. we are doing the loop for all files
 Note that for here I am extracting the population statistics via
 <code>gs_pop_get_count_with_meta()</code> for flowWorkspace, the argument <code>freq</code>
