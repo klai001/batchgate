@@ -1,0 +1,69 @@
+# Applying gates to your fcs file paths
+Here we will be applying the gate you created
+using `flowjo_to_gatingset()` to the fcs file paths of your interest. 
+Again I am selecting `gs[[1]]` meaning the first sample of my gating set
+
+```{r,eval=F,echo=T}
+gating_applied<-flowWorkspace::gh_apply_to_new_fcs(gs[[1]], all_files,emptyValue=F)
+```
+
+Here we are checking the output of a single fcs file after applying the gate
+```{r,echo=T,eval=F}
+gs_pop_get_count_with_meta(gating_applied[[1]],'freq')
+res<-autoplot(gating_applied[[1]])
+qcp <- ggcyto_arrange(res, nrow = 5)
+```
+
+```{r,echo=F,eval=T}
+suppressMessages(library(png))
+img1_path <- 'C:/Users/Kei Onn/Desktop/local_preparreddata/manualvsbatchcomp/gatingstrategy_WITHOUTveri.png'
+img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
+knitr::include_graphics(img1_path)
+```
+
+
+And finally.. we are doing the loop for all files
+Note that for here I am extracting the population statistics via
+`gs_pop_get_count_with_meta()` for flowWorkspace, the argument `freq`
+refers to freq against all the cells, and not just the direct parent population(unlike flowjo).
+Therefore, i usually retrieve `count`instead and normalize against my parent of interest
+```{r,echo=T,eval=F}
+pop_stats_df_list <- list()
+
+#replace with any title you want
+
+pdf("all_gating_qc_plots_WITHOUTVERI.pdf", width = 12, height = 8)
+
+for (i in seq_along(gating_applied)) {
+  
+  gs <- gating_applied[[i]]
+  sample_name <- sampleNames(gs)[1]
+  
+  
+  res <- autoplot(gs)
+  qcp <- ggcyto_arrange(res, nrow = 5)
+  
+  grid.newpage()
+  grid.text(sample_name, x = 0.5, y = 0.98, gp = gpar(fontsize = 16, fontface = "bold"))
+  pushViewport(viewport(y = 0.45, height = 0.9))
+  grid.draw(qcp)
+  popViewport()
+  
+  pop_stats_i <- as.data.frame(gs_pop_get_count_with_meta(gs, "count"))
+  pop_stats_df_list[[i]] <- pop_stats_i
+}
+
+dev.off()
+names(pop_stats_df_list)<-sampleNames(gating_applied)
+```
+
+conversion to dataframe
+```{r,eval=F,echo=T}
+pop_stats_df<-imap_dfr(pop_stats_df_list, ~ mutate(.x, Sample = .y))
+head(pop_stats_df)
+```
+
+Annd... thats it!
+I think it really important to QC the output from the pdf where you can eyeball if there is any weird discrepancies from the batch gating.
+Also to note, sometimes there may be sample to sample variation so if the gates doesnt work, we need to refine them from the wsp. 
+

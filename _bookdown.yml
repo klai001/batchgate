@@ -1,0 +1,11 @@
+
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Chapter "
+rmd_files: [
+  "index.Rmd",
+  "1-Filepaths.Rmd",
+  "2-Wsp_template.Rmd",
+  "3-Applying_gates.Rmd"
+]

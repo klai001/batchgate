@@ -1,0 +1,42 @@
+# Importing the gating template 
+
+Here we assume that you have a flowjo workspace consisting of at least 1 sample which is gated. 
+
+Using `open_flowjo_xml` you are importing the flowjo workspace into R.
+The arg `name=1` meaning that it only imports the first sample into R
+this function is from CytoML
+Currently, the best way to download CytoML (without the docker image)
+is through bioconductor. However, this limits us in terms of exporting
+the gating set (gs) from R to flowjo.
+```{r,echo=T,eval=F}
+library(flowWorkspace)
+library(openCyto)
+library(CytoML)
+library(ggcyto)
+library(grid)
+library(gridExtra)
+setwd('C:\Users\Kei Onn\Desktop\pipeline_masscytof_latest')
+wsp <- list.files(".", pattern = "test09-Apr-2025.wsp$")
+ws<-open_flowjo_xml(paste0(getwd(), "/", wsp), name = 1, sample_names_from = "sampleNode")
+```
+
+
+## Visualisation
+
+Here we need a sanity check to see that the gating template which you imported
+from flowjo is not empty!
+Again I am only creating a gating set (which is synonymous as your group gating template in flowjo) so name=1
+```{r,echo=T,eval=F}
+gs <- flowjo_to_gatingset(ws, name = 1,emptyValue = FALSE)
+par(mar = c(4, 4, .1, .1))
+plot(gs)
+
+```
+
+```{r,echo=F,eval=T}
+suppressMessages(library(png))
+img1_path <- 'C:/Users/Kei Onn/Desktop/local_preparreddata/verivswithoutvericells/gatingH_WITHOUTveri.png'
+img1 <- readPNG(img1_path, native = TRUE, info = TRUE)
+knitr::include_graphics(img1_path)
+```
+

@@ -1,0 +1,53 @@
+# Batchgating with .wsp template 
+
+The goal here is to populate your existing gating strategy
+from a flowjo workspace to your ungated .fcs files using available bioconductor flow packages
+
+## getting your filepaths
+
+Here we define the filepaths of your fcs
+In this example the subdirs are batchdates of when the masscytof/flow is being ran 
+these are the dates which i can retrieve from a meta datafile
+`basename()` is essentially everything after the last `\`
+which is the name of your subdir
+```{r,echo=TRUE,eval=F}
+maindir=getwd()
+#REPLACE THIS WITH THE METADATA CSV FILE OF YOUR OWN
+meta<-read.csv('./allparticipants_meta.csv')
+names(meta)[1]<-'ID'
+names(meta)
+
+#here get the batch names subdir
+subdirs <- list.dirs(maindir, recursive = FALSE)
+
+#any pattern naming required to retrieve just fcs files
+all_files <- list.files(subdirs, pattern = "_cleaned\\.fcs$", full.names = TRUE)
+
+file_names <- basename(all_files)
+file_subdirs <- basename(dirname(all_files))
+
+meta$subdir<- NA_character_;meta$filename <- NA_character_
+
+for (i in seq_len(nrow(meta))) {
+  id <- meta$ID[i]
+  
+  # Match files starting with the ID col which is found in your metadata csv
+  matched_idx <- grep(paste0("^", id), file_names)
+  
+  if (length(matched_idx) == 1) {
+    meta$filename[i] <- file_names[matched_idx]
+    meta$subdir[i] <- file_subdirs[matched_idx]
+  } else if (length(matched_idx) > 1) {
+    warning(sprintf("Multiple matches for ID '%s'. Taking the first.", id))
+    meta$filename[i] <- file_names[matched_idx[1]]
+    meta$subdir[i] <- file_subdirs[matched_idx[1]]
+  } else {
+    warning(sprintf("No file match found for ID '%s'", id))
+  }
+}
+
+
+```
+
+
+

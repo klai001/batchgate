@@ -1,0 +1,5 @@
+batchgating-with-.wsp-template
+getting-your-filepaths
+importing-the-gating-template
+visualisation
+applying-gates-to-your-fcs-file-paths
